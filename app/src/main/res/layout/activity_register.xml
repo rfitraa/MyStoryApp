@@ -10,7 +10,7 @@
         android:id="@+id/image_register"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="64dp"
         android:src="@drawable/image_register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,11 +22,11 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-
         android:text="@string/register"
         android:textColor="@color/orange_700"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image_register" />
@@ -38,8 +38,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-
         android:text="@string/tagline"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_register" />
@@ -53,6 +53,7 @@
         android:layout_marginEnd="16dp"
         android:paddingStart="8dp"
         android:textSize="12sp"
+        android:alpha="0"
         android:background="@drawable/bg_edittext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +68,7 @@
         android:layout_marginEnd="16dp"
         android:textSize="12sp"
         android:paddingStart="8dp"
+        android:alpha="0"
         android:background="@drawable/bg_edittext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +83,7 @@
         android:layout_marginEnd="16dp"
         android:textSize="12sp"
         android:paddingStart="8dp"
+        android:alpha="0"
         android:background="@drawable/bg_edittext"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,6 +98,7 @@
         android:layout_marginEnd="16dp"
         android:text="@string/register"
         android:textAllCaps="true"
+        android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ed_register_password" />
@@ -128,9 +132,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_register"
-        app:layout_constraintEnd_toEndOf="@+id/btn_register"
-        app:layout_constraintStart_toStartOf="@+id/btn_register"
-        app:layout_constraintTop_toTopOf="@+id/btn_register" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

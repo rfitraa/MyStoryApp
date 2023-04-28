@@ -3,6 +3,7 @@ package com.dicoding.mystoryapp.customview
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -38,19 +39,22 @@ class EditTextEmail : AppCompatEditText{
         compoundDrawablePadding = 24
         setEmailIcon(emailIcon)
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            setAutofillHints(AUTOFILL_HINT_EMAIL_ADDRESS)
+        }
+
         addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                if (!p0.isNullOrEmpty() && p0.length < 8)
+                    error = "Input must be email"
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (Patterns.EMAIL_ADDRESS.matcher(p0).matches()){
-                    error = "Input must be email"
-                }
+
             }
 
         })

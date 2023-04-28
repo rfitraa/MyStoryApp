@@ -3,9 +3,11 @@ package com.dicoding.mystoryapp.customview
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.util.Patterns
 import android.view.View
@@ -27,8 +29,7 @@ class EditTextPassword: AppCompatEditText {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        hint = context.getString(R.string.input_password)
-        textAlignment = View.TEXT_ALIGNMENT_VIEW_START
+        transformationMethod = PasswordTransformationMethod.getInstance()
     }
 
     private fun init(){
@@ -36,19 +37,21 @@ class EditTextPassword: AppCompatEditText {
         inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
         compoundDrawablePadding = 24
         setPasswordIcon(passwordIcon)
+        setHint(R.string.input_password)
 
         addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
+
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (p0?.length!! < 8){
-                    error = context.getString(R.string.password_warning)
+                if (p0 != null) {
+                    when {
+                        p0.length < 8 -> error = context.getString(R.string.password_warning)
+                    }
                 }
             }
 

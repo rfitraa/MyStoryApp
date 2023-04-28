@@ -1,12 +1,20 @@
 <resources>
     <string name="app_name">MyStoryApp</string>
     <string name="register">Register</string>
+    <string name="sign_in">Sign In</string>
     <string name="tagline">Let\'s create your own story</string>
     <string name="input_email">Input your email</string>
     <string name="input_password">Input your password</string>
     <string name="input_username">Input your username</string>
     <string name="password_warning">Password must 8 characters</string>
-    <string name="already_have">Already have an account? </string>
-    <string name="dont_have">Don\'t have an account? </string>
-    <string name="sign_in">Sign In</string>
+    <string name="already_have">Already have an account?  </string>
+    <string name="dont_have">Don\'t have an account?  </string>
+    <string name="input_name_first">Input name first</string>
+    <string name="input_email_first">Input email first!</string>
+    <string name="input_password_first">Input password first!</string>
+    <string name="login_failed">Login Failed</string>
+    <string name="login_success">Login Success</string>
+    <string name="logout">Logout</string>
+    <string name="setting">Setting</string>
+    <string name="sure">Are you sure?</string>
 </resources>
