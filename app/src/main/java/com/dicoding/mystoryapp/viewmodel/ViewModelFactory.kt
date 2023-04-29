@@ -18,6 +18,7 @@ class ViewModelFactory private constructor(private val storyRepository: StoryRep
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(storyRepository) as T
         }
+
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 

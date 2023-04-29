@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.mystoryapp.R
+import com.dicoding.mystoryapp.adapter.StoryAdapter
 import com.dicoding.mystoryapp.data.Preference
 import com.dicoding.mystoryapp.databinding.ActivityMainBinding
-import com.dicoding.mystoryapp.response.LoginResult
+import com.dicoding.mystoryapp.response.ListStoryItem
 import com.dicoding.mystoryapp.viewmodel.MainViewModel
 import com.dicoding.mystoryapp.viewmodel.ViewModelFactory
 
@@ -21,21 +24,53 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModelFactory: ViewModelFactory
     private val mainViewModel: MainViewModel by viewModels { viewModelFactory }
-    private lateinit var preference: Preference
-    private lateinit var loginResult: LoginResult
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        viewModelFactory = ViewModelFactory.getInstance(binding.root.context)
 
         val preference = Preference(this)
-        val data = preference.getData()
-        if (data.token.isNullOrEmpty()){
+        val token = preference.getData().token
+        if (token.isNullOrEmpty()){
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        viewModelFactory = ViewModelFactory.getInstance(binding.root.context)
+        mainViewModel.getAllStories().observe(this){stories ->
+            when(stories){
+                is com.dicoding.mystoryapp.data.Result.Loading -> {
+                    showLoading(true)
+                }
+                is com.dicoding.mystoryapp.data.Result.Error -> {
+                    showLoading(false)
+                    Toast.makeText(this, getString(R.string.story_failed), Toast.LENGTH_SHORT).show()
+                }
+                is com.dicoding.mystoryapp.data.Result.Success -> {
+                    showLoading(false)
+                    showList(stories.data.listStory)
+                    Toast.makeText(this, getString(R.string.story_success), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun showList(listStory: List<ListStoryItem>) {
+        val layoutManager = LinearLayoutManager(this)
+        binding.rvStory.layoutManager = layoutManager
+
+        val storyAdapter = StoryAdapter(listStory)
+        binding.rvStory.adapter = storyAdapter
+
+        storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback{
+            override fun onItemClicked(data: ListStoryItem) {
+                Intent(this@MainActivity, DetailActivity::class.java).also { detail ->
+                    detail.putExtra(DetailActivity.EXTRA_DETAIL, data)
+                    startActivity(detail)
+                }
+            }
+        })
     }
 
     override fun onBackPressed() {
@@ -75,5 +110,13 @@ class MainActivity : AppCompatActivity() {
         val preference = Preference(this)
         preference.clearData()
         startActivity(Intent(this, LoginActivity::class.java))
+    }
+
+    private fun showLoading(isLoading: Boolean){
+        if (isLoading){
+            binding.progressBar.visibility = View.VISIBLE
+        }else{
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }

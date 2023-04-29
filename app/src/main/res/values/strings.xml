@@ -14,7 +14,11 @@
     <string name="input_password_first">Input password first!</string>
     <string name="login_failed">Login Failed</string>
     <string name="login_success">Login Success</string>
+    <string name="story_failed">Story Failed</string>
+    <string name="story_success">Story Success</string>
     <string name="logout">Logout</string>
     <string name="setting">Setting</string>
     <string name="sure">Are you sure?</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
 </resources>
