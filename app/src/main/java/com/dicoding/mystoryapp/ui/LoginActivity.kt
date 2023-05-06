@@ -48,7 +48,10 @@ class LoginActivity : AppCompatActivity() {
             binding.edLoginEmail.error = getString(R.string.input_email_first)
         }else if (pass.isEmpty()){
             binding.edLoginPassword.error = getString(R.string.input_password_first)
-        }else {
+        }else if (pass.length < 8){
+            binding.edLoginPassword.error = getString(R.string.password_warning)
+        }
+        else {
             loginViewModel.login(email, pass).observe(this){login ->
                 if (login != null){
                     when(login){

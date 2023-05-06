@@ -49,6 +49,8 @@ class RegisterActivity : AppCompatActivity() {
             binding.edRegisterEmail.error = getString(R.string.input_email_first)
         }else if (pass.isEmpty()){
             binding.edRegisterPassword.error = getString(R.string.input_password_first)
+        }else if (pass.length < 8){
+            binding.edRegisterPassword.error = getString(R.string.password_warning)
         }else {
             registerViewModel.register(name, email, pass).observe(this){register ->
                 if (register != null){
@@ -58,12 +60,12 @@ class RegisterActivity : AppCompatActivity() {
                         }
                         is com.dicoding.mystoryapp.data.Result.Error -> {
                             showLoading(false)
-                            Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.register_failed), Toast.LENGTH_SHORT).show()
                         }
                         is com.dicoding.mystoryapp.data.Result.Success -> {
                             showLoading(false)
                             startActivity(Intent(this, LoginActivity::class.java))
-                            Toast.makeText(this, "Register Success", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, getString(R.string.register_success), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

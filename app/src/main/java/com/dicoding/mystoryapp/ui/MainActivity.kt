@@ -54,6 +54,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(this, AddStoryActivity::class.java))
+        }
     }
 
     private fun showList(listStory: List<ListStoryItem>) {
@@ -93,12 +97,12 @@ class MainActivity : AppCompatActivity() {
                 val dialog = AlertDialog.Builder(this)
                 dialog.setTitle(getString(R.string.logout))
                 dialog.setMessage(getString(R.string.sure))
-                dialog.setPositiveButton("Yes") {_,_ ->
+                dialog.setPositiveButton(getString(R.string.yes)) { _, _ ->
                     clearData()
-                    Toast.makeText(this, "Logout Success", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.logout_success), Toast.LENGTH_SHORT).show()
                 }
-                dialog.setNegativeButton("No") {_,_ ->
-                    Toast.makeText(this, "Logout Failed", Toast.LENGTH_SHORT).show()
+                dialog.setNegativeButton(getString(R.string.no)) { _, _ ->
+                    Toast.makeText(this, getString(R.string.logout_failed), Toast.LENGTH_SHORT).show()
                 }
                 dialog.show()
             }

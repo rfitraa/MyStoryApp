@@ -21,4 +21,21 @@
     <string name="sure">Are you sure?</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="description_here">Description here...</string>
+    <string name="permission_not_allowed">Permission is not allowed</string>
+    <string name="choose_picture">Choose a Picture</string>
+    <string name="input_image">Please input image first</string>
+    <string name="upload_success">Upload Success</string>
+    <string name="upload_failed">Upload Failed</string>
+    <string name="desc_required">Description is required</string>
+    <string name="logout_success">Logout Success</string>
+    <string name="logout_failed">Logout Failed</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="register_failed">Register Failed</string>
+    <string name="register_success">Register Success</string>
+    <string name="my_story_app">My Story App</string>
 </resources>

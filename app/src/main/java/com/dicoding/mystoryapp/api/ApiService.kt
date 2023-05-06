@@ -33,6 +33,6 @@ interface ApiService {
     suspend fun uploadStory(
         @Header("Authorization") token: String,
         @Part file: MultipartBody.Part,
-        @Part("desc") desc: RequestBody
+        @Part("description") description: RequestBody
     ): UploadStoryResponse
 }

@@ -1,15 +1,17 @@
 package com.dicoding.mystoryapp.data
 
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import com.dicoding.mystoryapp.api.ApiConfig
 import com.dicoding.mystoryapp.api.ApiService
-import com.dicoding.mystoryapp.response.ListStoryItem
-import com.dicoding.mystoryapp.response.LoginResponse
-import com.dicoding.mystoryapp.response.RegisterResponse
-import com.dicoding.mystoryapp.response.StoriesResponse
+import com.dicoding.mystoryapp.response.*
+import com.dicoding.mystoryapp.ui.AddStoryActivity
+import com.dicoding.mystoryapp.ui.MainActivity
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -69,6 +71,22 @@ class StoryRepository(private val apiService: ApiService, private val preference
             }
         }catch (e: Exception){
             Log.d("StoryRepository", "listStory : ${e.message.toString()}")
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+    fun uploadStory(imageFile: MultipartBody.Part, desc: RequestBody): LiveData<Result<UploadStoryResponse>> = liveData {
+        emit(Result.Loading)
+        val token = preference.getData().token
+        try {
+            val response = apiService.uploadStory(token = "Bearer $token", imageFile, desc)
+            if (response.error){
+                emit(Result.Error(response.message))
+            }else{
+                emit(Result.Success(response))
+            }
+        }catch (e : Exception){
+            Log.d("StoryRepository", "uploadStory : ${e.message.toString()}")
             emit(Result.Error(e.message.toString()))
         }
     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyStoryApp</string>
+    <string name="register">Daftar</string>
+    <string name="sign_in">Masuk</string>
+    <string name="tagline">Buatlah Ceritamu Sendiri</string>
+    <string name="input_email">Masukkan email</string>
+    <string name="input_password">Masukkan kata sandi</string>
+    <string name="input_username">Masukkan nama</string>
+    <string name="password_warning">Kata sandi tidak bisa kurang dari 8 karakter</string>
+    <string name="already_have">Sudah punya akun?  </string>
+    <string name="dont_have">Belum punya akun?  </string>
+    <string name="input_name_first">Masukkan nama terlebih dahulu!</string>
+    <string name="input_email_first">Masukkan email terlebih dahulu!</string>
+    <string name="input_password_first">Masukkan kata sandi terlebih dahulu!</string>
+    <string name="login_failed">Masuk Gagal</string>
+    <string name="login_success">Masuk Berhasil</string>
+    <string name="story_failed">Daftar Cerita Gagal</string>
+    <string name="story_success">Daftar Cerita Berhasil</string>
+    <string name="logout">Keluar</string>
+    <string name="setting">Pengaturan</string>
+    <string name="sure">Apakah kamu yakin?</string>
+    <string name="name">Nama</string>
+    <string name="description">Keterangan</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="upload">Unggah</string>
+    <string name="description_here">Keterangan disini…</string>
+    <string name="permission_not_allowed">Izin ditolak</string>
+    <string name="choose_picture">Pilih gambar</string>
+    <string name="input_image">Masukkan gambar terlebih dahulu!</string>
+    <string name="upload_success">Unggah Berhasil</string>
+    <string name="upload_failed">Unggah Gagal</string>
+    <string name="desc_required">Keterangan harus diisi</string>
+    <string name="logout_success">Keluar Berhasil</string>
+    <string name="logout_failed">Keluar Gagal</string>
+    <string name="no">Tidak</string>
+    <string name="yes">Iya</string>
+    <string name="register_failed">Daftar Gagal</string>
+    <string name="register_success">Daftar Berhasil</string>
+    <string name="my_story_app">My Story App</string>
+</resources>
