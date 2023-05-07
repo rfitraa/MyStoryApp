@@ -1,20 +1,16 @@
 package com.dicoding.mystoryapp.data
 
 import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import com.dicoding.mystoryapp.api.ApiConfig
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.dicoding.mystoryapp.api.ApiService
 import com.dicoding.mystoryapp.response.*
-import com.dicoding.mystoryapp.ui.AddStoryActivity
-import com.dicoding.mystoryapp.ui.MainActivity
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class StoryRepository(private val apiService: ApiService, private val preference: Preference) {
     companion object {
@@ -59,27 +55,43 @@ class StoryRepository(private val apiService: ApiService, private val preference
         }
     }
 
-    fun getAllStories(): LiveData<Result<StoriesResponse>> = liveData {
+    fun getAllStories(): LiveData<PagingData<ListStoryItem>>{
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            pagingSourceFactory = {
+                StoryPagingSource(apiService, preference)
+            }
+        ).liveData
+    }
+
+    fun getMapStory(): LiveData<Result<StoriesResponse>> = liveData {
         emit(Result.Loading)
         val token = preference.getData().token
         try {
-            val response = apiService.getAllStories(token = "Bearer $token")
+            val response = apiService.getStory(
+                token = "Bearer $token",
+                page = 1,
+                size = 50,
+                location = 1
+            )
             if (response.error){
                 emit(Result.Error(response.message))
-            } else {
+            }else{
                 emit(Result.Success(response))
             }
         }catch (e: Exception){
-            Log.d("StoryRepository", "listStory : ${e.message.toString()}")
+            Log.d("StoryRepository", "MapStory : ${e.message.toString()}")
             emit(Result.Error(e.message.toString()))
         }
     }
 
-    fun uploadStory(imageFile: MultipartBody.Part, desc: RequestBody): LiveData<Result<UploadStoryResponse>> = liveData {
+    fun uploadStory(imageFile: MultipartBody.Part, desc: RequestBody, lat: RequestBody?, lon: RequestBody?): LiveData<Result<UploadStoryResponse>> = liveData {
         emit(Result.Loading)
         val token = preference.getData().token
         try {
-            val response = apiService.uploadStory(token = "Bearer $token", imageFile, desc)
+            val response = apiService.uploadStory(token = "Bearer $token", imageFile, desc, lat, lon)
             if (response.error){
                 emit(Result.Error(response.message))
             }else{

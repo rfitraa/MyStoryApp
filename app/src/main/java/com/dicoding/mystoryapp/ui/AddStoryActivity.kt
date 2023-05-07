@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,16 +18,16 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.dicoding.mystoryapp.R
-import com.dicoding.mystoryapp.api.ApiConfig
 import com.dicoding.mystoryapp.databinding.ActivityAddStoryBinding
 import com.dicoding.mystoryapp.utils.createCustomeTempFile
 import com.dicoding.mystoryapp.utils.reduceFileImage
 import com.dicoding.mystoryapp.utils.uriToFile
 import com.dicoding.mystoryapp.viewmodel.AddStoryViewModel
 import com.dicoding.mystoryapp.viewmodel.ViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
@@ -37,6 +38,8 @@ class AddStoryActivity : AppCompatActivity() {
     private val addStoryViewModel: AddStoryViewModel by viewModels { viewModelFactory }
     private lateinit var currentPhotoPath: String
     private var getFile: File? = null
+    private var myLocation: Location? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private val launcherIntentGallery = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -75,6 +78,7 @@ class AddStoryActivity : AppCompatActivity() {
         binding = ActivityAddStoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModelFactory = ViewModelFactory.getInstance(binding.root.context)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (!allPermissionsGranted()){
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -83,6 +87,34 @@ class AddStoryActivity : AppCompatActivity() {
         binding.btnCamera.setOnClickListener {startCamera()}
         binding.btnGallery.setOnClickListener {startGallery()}
         binding.btnUpload.setOnClickListener { uploadImage() }
+        binding.switchLocation.setOnCheckedChangeListener{ _, isChecked ->
+            if (isChecked){
+                getMyLastLocation()
+            }else{
+                myLocation = null
+            }
+        }
+    }
+
+    private fun getMyLastLocation() {
+        if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+        ){
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    myLocation = location
+                } else {
+                    binding.switchLocation.isChecked = false
+                }
+            }
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
     }
 
     private fun uploadImage() {
@@ -101,7 +133,9 @@ class AddStoryActivity : AppCompatActivity() {
                     file.name,
                     requestImageFile
                 )
-                addStoryViewModel.uploadStory(imageMultipart, desc).observe(this){
+                val lat = myLocation?.latitude?.toString()?.toRequestBody("text/plain".toMediaType())
+                val lon = myLocation?.longitude?.toString()?.toRequestBody("text/plain".toMediaType())
+                addStoryViewModel.uploadStory(imageMultipart, desc, lat, lon).observe(this){
                     when(it){
                         is com.dicoding.mystoryapp.data.Result.Loading -> {
                             showLoading(true)
@@ -168,7 +202,30 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun allPermissionsGranted() = Companion.REQUIRED_PERMISSIONS.all {
+    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+                permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    getMyLastLocation()
+                }
+                else -> {
+                }
+            }
+        }
+
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

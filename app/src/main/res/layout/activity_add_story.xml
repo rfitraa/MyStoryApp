@@ -54,7 +54,25 @@
         app:layout_constraintTop_toBottomOf="@id/btn_camera"
         app:layout_constraintStart_toStartOf="@id/btn_camera"
         app:layout_constraintEnd_toEndOf="@id/btn_gallery"
-        app:layout_constraintBottom_toTopOf="@id/btn_upload"/>
+        app:layout_constraintBottom_toTopOf="@id/share_my_location"/>
+
+    <TextView
+        android:id="@+id/share_my_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/share_my_location"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_upload"
+        app:layout_constraintStart_toStartOf="@id/ed_add_description"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/share_my_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/share_my_location" />
 
     <Button
         android:id="@+id/btn_upload"

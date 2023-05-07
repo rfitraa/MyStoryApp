@@ -23,6 +23,10 @@ class ViewModelFactory private constructor(private val storyRepository: StoryRep
             return AddStoryViewModel(storyRepository) as T
         }
 
+        if (modelClass.isAssignableFrom(MapsViewModel::class.java)){
+            return MapsViewModel(storyRepository) as T
+        }
+
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
     }
 

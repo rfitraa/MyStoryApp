@@ -38,4 +38,9 @@
     <string name="register_failed">Register Failed</string>
     <string name="register_success">Register Success</string>
     <string name="my_story_app">My Story App</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Maps</string>
+    <string name="email_warning">Input must be email</string>
+    <string name="share_my_location">Share my location</string>
+    <string name="retry">Try Again</string>
 </resources>

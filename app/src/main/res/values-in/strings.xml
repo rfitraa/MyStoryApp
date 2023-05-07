@@ -39,4 +39,9 @@
     <string name="register_failed">Daftar Gagal</string>
     <string name="register_success">Daftar Berhasil</string>
     <string name="my_story_app">My Story App</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Peta</string>
+    <string name="email_warning">Input harus email</string>
+    <string name="share_my_location">Bagikan lokasi anda</string>
+    <string name="retry">Coba Lagi</string>
 </resources>

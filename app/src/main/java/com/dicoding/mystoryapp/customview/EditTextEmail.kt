@@ -49,8 +49,8 @@ class EditTextEmail : AppCompatEditText{
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (!p0.isNullOrEmpty() && p0.length < 8)
-                    error = "Input must be email"
+                if (!p0.isNullOrEmpty() && !Patterns.EMAIL_ADDRESS.matcher(p0).matches())
+                    error = context.getString(R.string.email_warning)
             }
 
             override fun afterTextChanged(p0: Editable?) {

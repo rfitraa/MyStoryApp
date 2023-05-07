@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.mystoryapp.R
+import com.dicoding.mystoryapp.adapter.LoadingStateAdapter
 import com.dicoding.mystoryapp.adapter.StoryAdapter
 import com.dicoding.mystoryapp.data.Preference
 import com.dicoding.mystoryapp.databinding.ActivityMainBinding
@@ -19,6 +20,7 @@ import com.dicoding.mystoryapp.response.ListStoryItem
 import com.dicoding.mystoryapp.viewmodel.MainViewModel
 import com.dicoding.mystoryapp.viewmodel.ViewModelFactory
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -38,34 +40,27 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        mainViewModel.getAllStories().observe(this){stories ->
-            when(stories){
-                is com.dicoding.mystoryapp.data.Result.Loading -> {
-                    showLoading(true)
-                }
-                is com.dicoding.mystoryapp.data.Result.Error -> {
-                    showLoading(false)
-                    Toast.makeText(this, getString(R.string.story_failed), Toast.LENGTH_SHORT).show()
-                }
-                is com.dicoding.mystoryapp.data.Result.Success -> {
-                    showLoading(false)
-                    showList(stories.data.listStory)
-                    Toast.makeText(this, getString(R.string.story_success), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
         binding.fabAdd.setOnClickListener {
             startActivity(Intent(this, AddStoryActivity::class.java))
         }
+
+        showList()
     }
 
-    private fun showList(listStory: List<ListStoryItem>) {
+    private fun showList() {
         val layoutManager = LinearLayoutManager(this)
         binding.rvStory.layoutManager = layoutManager
 
-        val storyAdapter = StoryAdapter(listStory)
-        binding.rvStory.adapter = storyAdapter
+        val storyAdapter = StoryAdapter()
+        binding.rvStory.adapter = storyAdapter.withLoadStateHeaderAndFooter(
+            header = LoadingStateAdapter{storyAdapter.retry()},
+            footer = LoadingStateAdapter{storyAdapter.retry()}
+        )
+
+        mainViewModel.getAllStories.observe(this) {
+            showLoading(false)
+            storyAdapter.submitData(lifecycle, it)
+        }
 
         storyAdapter.setOnItemClickCallback(object : StoryAdapter.OnItemClickCallback{
             override fun onItemClicked(data: ListStoryItem) {
@@ -77,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()
@@ -91,6 +87,10 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.setting -> {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+            }
+
+            R.id.maps -> {
+                startActivity(Intent(this, MapsActivity::class.java))
             }
 
             R.id.logout -> {
