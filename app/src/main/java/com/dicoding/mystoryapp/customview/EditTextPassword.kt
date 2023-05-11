@@ -3,14 +3,11 @@ package com.dicoding.mystoryapp.customview
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
-import android.util.Patterns
-import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import com.dicoding.mystoryapp.R
@@ -45,14 +42,10 @@ class EditTextPassword: AppCompatEditText {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                error = if (!p0.isNullOrEmpty() && p0.length < 8) context.getString(R.string.password_warning) else null
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (p0 != null) {
-                    when {
-                        p0.length < 8 -> error = context.getString(R.string.password_warning)
-                    }
-                }
             }
 
         })

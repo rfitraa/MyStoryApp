@@ -19,7 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.dicoding.mystoryapp.R
 import com.dicoding.mystoryapp.databinding.ActivityAddStoryBinding
-import com.dicoding.mystoryapp.utils.createCustomeTempFile
+import com.dicoding.mystoryapp.utils.createCostumeTempFile
 import com.dicoding.mystoryapp.utils.reduceFileImage
 import com.dicoding.mystoryapp.utils.uriToFile
 import com.dicoding.mystoryapp.viewmodel.AddStoryViewModel
@@ -170,7 +170,7 @@ class AddStoryActivity : AppCompatActivity() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.resolveActivity(packageManager)
 
-        createCustomeTempFile(application).also {
+        createCostumeTempFile(application).also {
             val photoURI: Uri = FileProvider.getUriForFile(
                 this@AddStoryActivity, "com.dicoding.mystoryapp.ui", it
             )

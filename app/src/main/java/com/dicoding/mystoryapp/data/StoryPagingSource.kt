@@ -27,7 +27,7 @@ class StoryPagingSource(private val apiService: ApiService, private val preferen
                 val responseData = apiService.getAllStories(token = "Bearer $token", position, params.loadSize)
                 if (responseData.isSuccessful){
                     LoadResult.Page(
-                        data = responseData.body()?.listStory ?: emptyList(),
+                        data = responseData.body()?.listStory ?: emptyList() ,
                         prevKey = if (position == INITIAL_PAGE_INDEX) null else position -1,
                         nextKey = if (responseData.body()?.listStory.isNullOrEmpty()) null else position + 1
                     )

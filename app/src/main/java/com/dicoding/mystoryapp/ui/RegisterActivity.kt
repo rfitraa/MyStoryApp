@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.dicoding.mystoryapp.R
 import com.dicoding.mystoryapp.databinding.ActivityRegisterBinding
-import com.dicoding.mystoryapp.response.RegisterResponse
 import com.dicoding.mystoryapp.viewmodel.AuthViewModel
 import com.dicoding.mystoryapp.viewmodel.ViewModelFactory
 
@@ -43,15 +42,12 @@ class RegisterActivity : AppCompatActivity() {
         val email = binding.edRegisterEmail.text?.trim().toString()
         val pass = binding.edRegisterPassword.text?.trim().toString()
 
-        if (name.isEmpty()){
-            binding.edRegisterName.error = getString(R.string.input_name_first)
-        }else if (email.isEmpty()){
-            binding.edRegisterEmail.error = getString(R.string.input_email_first)
-        }else if (pass.isEmpty()){
-            binding.edRegisterPassword.error = getString(R.string.input_password_first)
-        }else if (pass.length < 8){
-            binding.edRegisterPassword.error = getString(R.string.password_warning)
-        }else {
+        if (binding.edRegisterName.text.isNullOrEmpty() ||binding.edRegisterEmail.text.isNullOrEmpty() || binding.edRegisterPassword.text.isNullOrEmpty()){
+            Toast.makeText(this, getString(R.string.input_first), Toast.LENGTH_SHORT).show()
+        }
+        if (binding.edRegisterName.error != null ||binding.edRegisterEmail.error != null || binding.edRegisterPassword.error != null){
+            Toast.makeText(this, getString(R.string.input_correctly), Toast.LENGTH_SHORT).show()
+        }else{
             registerViewModel.register(name, email, pass).observe(this){register ->
                 if (register != null){
                     when(register){

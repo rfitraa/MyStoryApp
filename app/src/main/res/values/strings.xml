@@ -43,4 +43,6 @@
     <string name="email_warning">Input must be email</string>
     <string name="share_my_location">Share my location</string>
     <string name="retry">Try Again</string>
+    <string name="input_first">Please fill the input first</string>
+    <string name="input_correctly">Please fill input correctly</string>
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.dicoding.mystoryapp.R
@@ -16,8 +17,10 @@ import com.dicoding.mystoryapp.response.LoginResult
 import com.dicoding.mystoryapp.viewmodel.AuthViewModel
 import com.dicoding.mystoryapp.viewmodel.ViewModelFactory
 
+@Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity() {
 
+    private lateinit var myButton: Button
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModelFactory: ViewModelFactory
     private val loginViewModel: AuthViewModel by viewModels { viewModelFactory }
@@ -26,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        myButton = findViewById(R.id.btn_login)
 
         viewModelFactory = ViewModelFactory.getInstance(binding.root.context)
 
@@ -39,19 +44,16 @@ class LoginActivity : AppCompatActivity() {
             loginButtonClicked()
         }
     }
-
     private fun loginButtonClicked() {
         val email = binding.edLoginEmail.text?.trim().toString()
         val pass = binding.edLoginPassword.text?.trim().toString()
 
-        if (email.isEmpty()){
-            binding.edLoginEmail.error = getString(R.string.input_email_first)
-        }else if (pass.isEmpty()){
-            binding.edLoginPassword.error = getString(R.string.input_password_first)
-        }else if (pass.length < 8){
-            binding.edLoginPassword.error = getString(R.string.password_warning)
+        if (binding.edLoginEmail.text.isNullOrEmpty() || binding.edLoginPassword.text.isNullOrEmpty()){
+            Toast.makeText(this, getString(R.string.input_first), Toast.LENGTH_SHORT).show()
         }
-        else {
+        if (binding.edLoginEmail.error != null || binding.edLoginPassword.error != null){
+            Toast.makeText(this, getString(R.string.input_correctly), Toast.LENGTH_SHORT).show()
+        }else{
             loginViewModel.login(email, pass).observe(this){login ->
                 if (login != null){
                     when(login){
@@ -113,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         finishAffinity()

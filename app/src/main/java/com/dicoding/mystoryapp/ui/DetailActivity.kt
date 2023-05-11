@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide
 import com.dicoding.mystoryapp.databinding.ActivityDetailBinding
 import com.dicoding.mystoryapp.response.ListStoryItem
 
+@Suppress("DEPRECATION")
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding

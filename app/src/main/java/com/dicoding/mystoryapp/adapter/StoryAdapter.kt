@@ -1,10 +1,7 @@
 package com.dicoding.mystoryapp.adapter
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.app.ActivityOptionsCompat
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -34,18 +31,18 @@ class StoryAdapter: PagingDataAdapter<ListStoryItem, StoryAdapter.ViewHolder>(DI
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoryAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: StoryAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val listStory = getItem(position)
         holder.binding.apply {
             if (listStory != null) {
                 holder.binding(listStory)
                 holder.itemView.setOnClickListener {
-                    onItemClickCallback?.onItemClicked(
+                    onItemClickCallback.onItemClicked(
                         listStory
                     )
                 }

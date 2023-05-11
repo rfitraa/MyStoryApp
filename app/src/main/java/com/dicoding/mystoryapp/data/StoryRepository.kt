@@ -3,10 +3,7 @@ package com.dicoding.mystoryapp.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.*
 import com.dicoding.mystoryapp.api.ApiService
 import com.dicoding.mystoryapp.response.*
 import okhttp3.MultipartBody
